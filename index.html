@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亞盛科技 2023 ESG 執行成果報告</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 基本重設與樣式 */
+        body {
+            font-family: 'Helvetica Neue', Arial, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            scroll-behavior: smooth; /* 啟用原生平滑捲動 */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* 頁首 */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #4CAF50; /* 主題綠色 */
+        }
+
+        header h1 {
+            color: #2E7D32; /* 深綠色 */
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        .guidance {
+            background-color: #e8f5e9; /* 淡綠色背景 */
+            color: #1b5e20; /* 深綠色文字 */
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.95em;
+            border: 1px solid #a5d6a7; /* 淺綠色邊框 */
+        }
+
+        /* 導覽列 */
+        nav {
+            background-color: #4CAF50; /* 主題綠 */
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            position: sticky; /* 導覽列吸頂 */
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #388E3C; /* 深一點的綠 */
+        }
+
+        /* 內容區塊 */
+        section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 1px solid #e0e0e0; /* 淺灰邊框 */
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        section h2 {
+            color: #388E3C; /* 深綠 */
+            border-bottom: 2px solid #a5d6a7; /* 淺綠底線 */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        /* 表格樣式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e8f5e9; /* 淡綠背景 */
+            font-weight: bold;
+            color: #1b5e20; /* 深綠文字 */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* 斑馬紋 */
+        }
+
+        /* 圖表容器 */
+        .chart-container {
+            position: relative;
+            margin: 20px auto;
+            /* height: 40vh; */ /* 控制高度 */
+            max-width: 90%; /* 限制最大寬度 */
+            aspect-ratio: 16 / 9; /* 維持比例 */
+            min-height: 300px; /* 最小高度確保可見 */
+        }
+        
+        /* 讓 Chart.js 自適應容器 */
+        .chart-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto !important; /* 覆蓋 chart.js inline style */
+            height: auto !important; /* 覆蓋 chart.js inline style */
+        }
+
+        /* 列表樣式 */
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* 社會面資訊卡 */
+        details {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #fafafa;
+        }
+
+        summary {
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.2s ease;
+        }
+        summary:hover {
+            background-color: #e0e0e0;
+        }
+        details[open] summary {
+            background-color: #e8f5e9; /* 打開時變綠 */
+            color: #1b5e20;
+        }
+        .details-content {
+            padding: 15px;
+            border-top: 1px solid #ccc;
+        }
+        
+        /* 互動地圖樣式 (簡化版) */
+        .map-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .map-region {
+            border: 1px solid #a5d6a7;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            text-align: center;
+            cursor: default; /* 改為 default 因為用 hover */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative; /* For tooltip positioning */
+        }
+        .map-region:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #e8f5e9; /* 懸停變綠 */
+        }
+        .map-region h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #388E3C;
+        }
+        .map-tooltip {
+            visibility: hidden; /* 預設隱藏 */
+            opacity: 0;
+            position: absolute;
+            bottom: 105%; /* 在元素上方 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content; /* 寬度自適應內容 */
+            max-width: 200px; /* 最大寬度 */
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: left;
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 1;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-size: 0.9em;
+            pointer-events: none; /* 避免 tooltip 干擾滑鼠事件 */
+        }
+        .map-region:hover .map-tooltip {
+            visibility: visible; /* Hover 時顯示 */
+            opacity: 1;
+        }
+
+        /* 公司治理結構互動卡片 */
+        .governance-structure {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .member-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            width: 200px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .member-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .member-card h4 {
+            margin-top: 0;
+            color: #2E7D32;
+        }
+        .member-details {
+            display: none; /* 預設隱藏 */
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+            font-size: 0.9em;
+            text-align: left;
+            color: #555;
+        }
+        .member-card.active {
+             border-color: #4CAF50;
+             background-color: #f0fff0;
+        }
+        .member-card.active .member-details {
+            display: block; /* 點擊後顯示 */
+        }
+
+        /* 頁尾標籤 */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            nav {
+                position: static; /* 小螢幕取消吸頂 */
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+            section {
+                padding: 15px;
+            }
+            section h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            .chart-container {
+                max-width: 100%;
+                /* height: 50vh; */ /* 在小螢幕上可能需要更高的高度 */
+            }
+            .governance-structure {
+                flex-direction: column;
+                align-items: center;
+            }
+            .member-card {
+                width: 80%;
+                max-width: 300px;
+            }
+             .map-container {
+                grid-template-columns: 1fr; /* 小螢幕單欄 */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>亞盛科技股份有限公司</h1>
+            <h2>AsiaSun Tech Co., Ltd.</h2>
+            <p>企業永續發展 (ESG) 執行成果報告</p>
+            <p><strong>報告期間：2023 年 1 月 – 2023 年 12 月</strong></p>
+            <div class="guidance">
+               💡 指導語：此網頁為企業 ESG 成果互動展示頁之原型，點擊下方導覽列或捲動頁面，探索各區塊詳情。
+            </div>
+        </header>
+
+        <nav id="main-nav">
+            <a href="#strategy">總體戰略</a>
+            <a href="#environmental">環境 (E)</a>
+            <a href="#social">社會 (S)</a>
+            <a href="#governance">治理 (G)</a>
+            <a href="#charts">互動圖表</a>
+        </nav>
+
+        <main>
+            <section id="strategy">
+                <h2>一、總體 ESG 戰略概覽</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>類別</th>
+                            <th>目標</th>
+                            <th>2023 年成果</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>環境 (Environmental)</td>
+                            <td>2030 年碳中和</td>
+                            <td>年度碳排放下降 12.3%（對比 2022）</td>
+                            <td>太陽能廠房擴建完成</td>
+                        </tr>
+                        <tr>
+                            <td>社會 (Social)</td>
+                            <td>增加女性中階主管至 35%</td>
+                            <td>達成 34.7%（+4.8% vs 2022）</td>
+                            <td>增設育兒支持機制</td>
+                        </tr>
+                        <tr>
+                            <td>治理 (Governance)</td>
+                            <td>董事會女性占比達 30%</td>
+                            <td>已達成 30.2%</td>
+                            <td>ESG 專責委員會成立</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="environmental">
+                <h2>二、環境面績效細節 (Environmental)</h2>
+                <p>亞盛科技致力於降低營運對環境的衝擊，積極推動節能減碳與資源循環利用。</p>
+                <ul>
+                    <li><strong>碳排放總量（2023）：</strong>68,400 噸 CO₂e，較 2022 年下降 12.3%。</li>
+                    <li><strong>再生能源使用占比：</strong>達到 47%，相較於 2022 年的 31%，提升顯著。</li>
+                    <li><strong>水資源回收率：</strong>維持在 84% 的高水平。</li>
+                </ul>
+                
+                <h3>重大專案摘要：</h3>
+                <ul>
+                    <li>台中廠新建完成 1MW 太陽能板區，預計年減碳量達 980 噸 CO₂e。</li>
+                    <li>全面導入 AI 節能監控平台，透過智慧分析優化能源使用，全年度節省電力約 15%，相當於節省電費約新台幣 1,500 萬元。</li>
+                </ul>
+
+                <div id="charts"> <!-- 將圖表錨點移至此處或相關圖表前 -->
+                 <h3>環境相關圖表</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart1"></canvas>
+                </div>
+                <p style="text-align: center; font-size: 0.9em; color: #555;">圖表 1：歷年碳排放總量趨勢圖</p>
+
+                <div class="chart-container">
+                    <canvas id="chart2"></canvas>
+                </div>
+                 <p style="text-align: center; font-size: 0.9em; color: #555;">圖表 2：2023 年能源使用比例圖</p>
+            </section>
+
+            <section id="social">
+                <h2>三、社會面績效細節 (Social)</h2>
+                <p>我們相信員工是公司最重要的資產，並積極投入社會共融與發展。</p>
+                <ul>
+                    <li><strong>員工整體滿意度（2023 調查）：</strong>達到 87%。</li>
+                    <li><strong>女性中高階主管占比：</strong>提升至 34.7%（詳見下方圖表）。</li>
+                    <li><strong>年度企業志工總時數：</strong>累積達 11,430 小時。</li>
+                </ul>
+
+                <h3>重大社會貢獻專案（點擊展開詳情）：</h3>
+                <details>
+                    <summary>「數位技能啟航」計畫</summary>
+                    <div class="details-content">
+                        <p>針對偏鄉地區青少年設計的數位素養與基礎程式設計課程，2023 年已服務超過 500 人次，提升其數位競爭力與未來發展機會。</p>
+                    </div>
+                </details>
+                 <details>
+                    <summary>設立全台首間「科技女性育成中心」</summary>
+                    <div class="details-content">
+                        <p>提供女性科技人才交流、 mentorship、技能培訓與創業輔導的平台，旨在促進科技領域的性別平等與多元化。</p>
+                    </div>
+                </details>
+
+                <h3>社會相關圖表</h3>
+                <div class="chart-container">
+                    <canvas id="chart3"></canvas>
+                </div>
+                 <p style="text-align: center; font-size: 0.9em; color: #555;">圖表 3：女性中高階主管占比變化</p>
+
+                 <h3>圖表 4：永續專案地區互動展示 (滑鼠懸停查看詳情)</h3>
+                 <div class="map-container" id="map-chart">
+                     <div class="map-region" data-projects="5" data-highlight="ESG 智慧教育平台推廣">
+                         <h4>台北市</h4>
+                         <p>專案數: 5</p>
+                         <div class="map-tooltip">
+                            <strong>重點項目:</strong><br>ESG 智慧教育平台推廣
+                         </div>
+                     </div>
+                     <div class="map-region" data-projects="3" data-highlight="校園太陽能建置">
+                         <h4>新竹市</h4>
+                          <p>專案數: 3</p>
+                         <div class="map-tooltip">
+                            <strong>重點項目:</strong><br>校園太陽能建置
+                         </div>
+                     </div>
+                     <div class="map-region" data-projects="4" data-highlight="AI 節能監控系統">
+                         <h4>台中市</h4>
+                          <p>專案數: 4</p>
+                         <div class="map-tooltip">
+                             <strong>重點項目:</strong><br>AI 節能監控系統
+                         </div>
+                     </div>
+                     <div class="map-region" data-projects="2" data-highlight="農業資源再利用示範區">
+                         <h4>嘉義縣</h4>
+                          <p>專案數: 2</p>
+                         <div class="map-tooltip">
+                             <strong>重點項目:</strong><br>農業資源再利用示範區
+                         </div>
+                     </div>
+                     <div class="map-region" data-projects="3" data-highlight="青年就業與技能培訓">
+                         <h4>屏東縣</h4>
+                          <p>專案數: 3</p>
+                         <div class="map-tooltip">
+                             <strong>重點項目:</strong><br>青年就業與技能培訓
+                         </div>
+                     </div>
+                 </div>
+            </section>
+
+            <section id="governance">
+                <h2>四、治理面績效細節 (Governance)</h2>
+                <p>亞盛科技致力於建立透明、負責且符合道德標準的公司治理架構。</p>
+                
+                <h3>董事會結構（2023 年底）</h3>
+                <ul>
+                    <li><strong>總席次：</strong>13 人</li>
+                    <li><strong>女性董事占比：</strong>30.2% (4 位)</li>
+                    <li><strong>獨立董事比率：</strong>46% (6 位)</li>
+                </ul>
+
+                <h3>新措施導入</h3>
+                <ul>
+                    <li>ESG 專責委員會於 2023 年中正式成立，由董事會層級直接督導。</li>
+                    <li>所有重大投資與營運決策流程，已全面納入 ESG 風險評估因子。</li>
+                </ul>
+
+                <h3>報告遵循準則</h3>
+                <p>本年度 ESG 報告主要依循 SASB (永續會計準則委員會)、TCFD (氣候相關財務揭露)、GRI (全球報告倡議組織) 等國際準則進行編撰與揭露。完整報告已公開於公司官方網站，並承諾每年更新。</p>
+
+                <h3>圖表 5：公司治理結構互動圖 (點擊成員查看簡介)</h3>
+                <div class="governance-structure" id="governance-chart">
+                     <div class="member-card" data-details="專長於公司財務策略、投資人關係，並積極推動 ESG 資訊透明化與利害關係人溝通。">
+                         <h4>陳文凱</h4>
+                         <p>董事長</p>
+                         <div class="member-details">
+                            會計與 ESG 溝通專長
+                         </div>
+                     </div>
+                      <div class="member-card" data-details="具備豐富的金融監管經驗，專注於風險管理、法規遵循與內部控制審查。">
+                         <h4>李靜怡</h4>
+                         <p>獨立董事</p>
+                         <div class="member-details">
+                            金融監管背景
+                         </div>
+                     </div>
+                     <div class="member-card" data-details="深耕半導體產業多年，擁有豐富的供應鏈管理、生產營運與技術整合經驗。">
+                         <h4>張耀仁</h4>
+                         <p>董事</p>
+                         <div class="member-details">
+                            半導體營運經驗
+                         </div>
+                     </div>
+                      <div class="member-card" data-details="專精於商事法、公司治理法規，提供董事會法律意見並確保決策合規性。">
+                         <h4>王秀華</h4>
+                         <p>獨立董事</p>
+                         <div class="member-details">
+                            法律與公司治理專長
+                         </div>
+                     </div>
+                     <div class="member-card" data-details="負責公司整體研發策略、技術藍圖規劃與創新專案管理，推動技術領先。">
+                         <h4>黃建宏</h4>
+                         <p>執行董事 (技術長)</p>
+                         <div class="member-details">
+                            研發技術長
+                         </div>
+                     </div>
+                     <div class="member-card" data-details="長期參與非營利組織運作，關注社會責任、社區關係與永續發展議題倡議。">
+                         <h4>許雅婷</h4>
+                         <p>獨立董事</p>
+                         <div class="member-details">
+                            NGO 與社會倡議
+                         </div>
+                     </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 亞盛科技股份有限公司 (AsiaSun Tech Co., Ltd.) 版權所有</p>
+            <p style="font-style: italic; color: #999;">此頁面由 Patricia Liu 生成式 AI 教材輔助創建</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Chart.js 圖表初始化 ---
+
+            // 圖表 1：碳排趨勢圖 (折線圖)
+            const ctx1 = document.getElementById('chart1').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: '總碳排量 (公噸 CO₂e)',
+                        data: [78200, 75100, 73500, 77960, 68400],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // 讓 CSS 控制比例
+                    scales: {
+                        y: {
+                            beginAtZero: false, // 從數據最小值附近開始可能更清晰
+                            title: {
+                                display: true,
+                                text: '公噸 CO₂e'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '歷年碳排放總量趨勢'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    }
+                }
+            });
+
+            // 圖表 2：能源使用比例圖 (圓餅圖)
+            const ctx2 = document.getElementById('chart2').getContext('2d');
+            new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['傳統火力', '太陽能', '風力', '其他再生能源'],
+                    datasets: [{
+                        label: '能源使用占比',
+                        data: [53, 27, 12, 8],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)', // 紅色系 (傳統)
+                            'rgba(255, 206, 86, 0.7)', // 黃色系 (太陽能)
+                            'rgba(75, 192, 192, 0.7)', // 藍綠色系 (風力)
+                            'rgba(153, 102, 255, 0.7)' // 紫色系 (其他)
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                         title: {
+                            display: true,
+                            text: '2023 年能源使用比例'
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top', // 圖例位置
+                        }
+                    }
+                }
+            });
+
+            // 圖表 3：女性中高階主管占比變化 (折線圖)
+            const ctx3 = document.getElementById('chart3').getContext('2d');
+            new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: '女性中高階主管占比 (%)',
+                        data: [21.4, 24.8, 27.3, 29.9, 34.7],
+                        borderColor: 'rgb(153, 102, 255)',
+                         backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        tension: 0.1,
+                        fill: true,
+                    }]
+                },
+                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                             title: {
+                                display: true,
+                                text: '占比 (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                     plugins: {
+                        title: {
+                            display: true,
+                            text: '女性中高階主管占比歷年變化'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- 互動效果 ---
+
+            // 1. 導覽列平滑捲動 & Active 狀態 (雖然 body 有 scroll-behavior, JS 可提供更細緻控制或 fallback)
+            const navLinks = document.querySelectorAll('#main-nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // 移除其他 active class
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    // 添加 active class 到當前點擊的連結
+                    this.classList.add('active');
+                    
+                    // 如果瀏覽器不支援 scroll-behavior: smooth, 可用以下 JS 實現
+                    /*
+                    e.preventDefault(); // 取消預設錨點跳轉
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    */
+                });
+            });
+
+            // 捲動時自動更新導覽列 Active 狀態 (較複雜, 這裡先省略, 可用 Intersection Observer API 實現)
+
+
+            // 2. 治理結構卡片點擊展開/收合
+            const memberCards = document.querySelectorAll('.member-card');
+            memberCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 如果點擊的是已經 active 的卡片，則收合它
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
+                        // 先移除所有卡片的 active 狀態 (一次只展開一個)
+                        memberCards.forEach(c => c.classList.remove('active'));
+                        // 再將當前點擊的卡片設為 active
+                        this.classList.add('active');
+                         // 顯示詳細資訊 (如果尚未填充)
+                        const detailsDiv = this.querySelector('.member-details');
+                        if (detailsDiv.innerHTML.trim() === '') { // 避免重複填充
+                             const detailsText = this.getAttribute('data-details');
+                             if(detailsText) {
+                                 detailsDiv.innerHTML = detailsText; // 填充從 data-* 來的內容
+                             }
+                        }
+                    }
+                });
+            });
+            
+             // 3. 地圖區域 Hover 顯示 Tooltip (已透過 CSS :hover 實現，JS 非必需)
+            // 若需要更複雜的 tooltip 行為 (例如延遲顯示/隱藏)，可以用 JS 控制 class 或 style
+
+        }); // End of DOMContentLoaded
+    </script>
+
+</body>
+</html>
